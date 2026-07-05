@@ -1,5 +1,5 @@
 /* NVIDIA AI Desktop - GitHub Pages / Cloudflare Worker build */
-const APP_VERSION = '3.0.5';
+const APP_VERSION = '3.0.6';
 const BUILD_ID = '2026-07-ios-safe-area-topbar';
 const NVIDIA_DIRECT_BASE = 'https://integrate.api.nvidia.com/v1';
 const SETTINGS_KEY = 'nvidia_ai_desktop_settings_v8_plugins';

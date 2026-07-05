@@ -7,7 +7,7 @@ A Kimi/Qwen-Studio-style NVIDIA AI chat app that runs as a static site on **GitH
 - Live site: https://wigglez-sudo.github.io/nvidia-ai-desktop/
 - Worker: https://nvidia-ai-proxy.lukewai.workers.dev
 
-This is **v3.0.5**, a small iOS layout patch on top of the v3.0.4 stability baseline. The proven engine (streaming, model catalog, generated-file parsing, the Worker) was kept; the app was patched in place without a rewrite.
+This is **v3.0.6**, a small iOS layout patch on top of the v3.0.4 stability baseline. The proven engine (streaming, model catalog, generated-file parsing, the Worker) was kept; the app was patched in place without a rewrite.
 
 ---
 
@@ -74,7 +74,7 @@ If you ever see a stale version again, just click **Clear cache & reload latest*
 
 ## Deploy the Cloudflare Worker
 
-The Worker source is still a single file: **`worker/index.js`**. Its behaviour is unchanged in v3.0.5. **No Worker change is required for this patch** unless you want to redeploy the included copy for consistency.
+The Worker source is still a single file: **`worker/index.js`**. Its behaviour is unchanged in v3.0.6. **No Worker change is required for this patch** unless you want to redeploy the included copy for consistency.
 
 Copy it to your local Wrangler project and deploy:
 
@@ -120,7 +120,7 @@ Do **not** add `/v1/models`, `/v1/chat/completions`, etc. — the app appends pa
 
 After uploading, open the site with `?v=3.0.5` and check:
 
-1. Sidebar name/status (bottom-left) opens the **Diagnostics** panel; version badge shows `v3.0.5`.
+1. Sidebar name/status (bottom-left) opens the **Diagnostics** panel; version badge shows `v3.0.6`.
 2. Settings → **Test Connection** loads models.
 3. Model picker → **Refresh**; the **Free Endpoint** and **API Available** tabs have models.
 4. Send a message → a reply renders (this is the path that used to be broken).
@@ -185,7 +185,7 @@ No Cloudflare Worker change is required for this patch unless you want to redepl
 - Bumped the service-worker cache to `nvidia-ai-desktop-v3-0-4`.
 - No Cloudflare Worker change is required for this frontend-only patch.
 
-## v3.0.5 — iOS safe-area toolbar fix
+## v3.0.6 — iOS safe-area toolbar fix
 
 - Fixed the iPhone/PWA layout where the top toolbar could sit underneath the status bar or dynamic island, making the hamburger/title/settings area hard to press.
 - Added mobile safe-area top padding to the top bar and sidebar drawer.
