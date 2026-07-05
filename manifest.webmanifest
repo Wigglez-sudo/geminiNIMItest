@@ -1,0 +1,23 @@
+{
+  "id": "/nvidia-ai-desktop/",
+  "name": "NVIDIA AI Desktop",
+  "short_name": "NVIDIA AI",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0d0d",
+  "theme_color": "#76B900",
+  "description": "Kimi-style NVIDIA AI chat app for GitHub Pages, backed by a Cloudflare Worker proxy.",
+  "categories": ["productivity", "utilities", "developer"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

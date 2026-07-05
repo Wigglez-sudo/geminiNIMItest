@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NVIDIA AI">
+  <title>NVIDIA AI Desktop</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" data-action="close-sidebar" aria-hidden="true"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">N</div>
+      <div>
+        <div class="logo-text">NVIDIA AI</div>
+        <div class="logo-sub">Desktop</div>
+      </div>
+    </div>
+
+    <button class="new-chat-btn" data-action="new-chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      New Chat <span style="margin-left:auto;color:var(--text-muted);font-size:11px;">Ctrl K</span>
+    </button>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">AI Modes</div>
+      <div id="modeNav"></div>
+      <div class="nav-divider"></div>
+      <div class="nav-section">
+        <div class="nav-item" data-action="plugins">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+          Plugins
+        </div>
+        <div class="nav-item" data-action="agents">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Agent Swarm <span class="nav-badge" id="agentBadge">General</span>
+        </div>
+        <div class="nav-item" data-action="help">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.82 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Help / What modes do
+        </div>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-label">Chat History</div>
+      <div class="chat-search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="chatSearch" class="chat-search-input" placeholder="Search chats" data-action="chat-search" autocomplete="off" spellcheck="false">
+      </div>
+      <div id="chatHistory"></div>
+    </nav>
+
+    <button type="button" class="sidebar-footer status-card" id="statusCard" data-action="status" title="Open diagnostics and app status">
+      <div class="user-avatar" id="statusAvatar" style="background:rgba(118,185,0,0.15);color:#76B900;border:1px solid rgba(118,185,0,0.35);">L</div>
+      <div class="user-info">
+        <div class="user-name" id="statusName">Luke</div>
+        <div class="user-plan" id="statusText">Disconnected</div>
+      </div>
+      <span class="app-version-badge" id="appVersionLabel">v3.0.5</span>
+    </button>
+  </aside>
+
+  <main class="main">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <button class="toggle-sidebar" data-action="toggle-sidebar" title="Toggle sidebar" aria-label="Toggle sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="chat-title" id="chatTitle">NVIDIA AI Chat</div>
+        <span class="mode-indicator" id="modeIndicator">Chat</span>
+      </div>
+      <div class="top-bar-right">
+        <button class="top-btn" data-action="export-pdf" title="Export to PDF" aria-label="Export to PDF">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span class="tooltip">Export PDF</span>
+        </button>
+        <button class="top-btn" data-action="share" title="Share" aria-label="Share">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          <span class="tooltip">Share</span>
+        </button>
+        <button class="top-btn" data-action="open-settings" title="Settings" aria-label="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.67 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.67 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.67a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="tooltip">Settings</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
+
+    <div class="input-area" id="inputArea">
+      <div class="editing-banner" id="editingBanner" style="display:none;">
+        Editing previous message. Sending will replace everything after it.
+        <button data-action="cancel-edit">Cancel</button>
+      </div>
+      <div class="input-wrapper">
+        <textarea class="input-box" id="inputBox" placeholder="Message NVIDIA AI..." rows="1"></textarea>
+        <div class="pending-attachments" id="pendingAttachments" style="display:none;"></div>
+        <div class="input-footer">
+          <div class="input-left">
+            <button class="input-tool-btn" id="attachBtn" title="Attach file" data-action="attach" aria-label="Attach file">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            </button>
+            <input type="file" id="fileInput" style="display:none" multiple data-action="file-select" accept="text/*,.txt,.md,.markdown,.json,.csv,.tsv,.py,.js,.jsx,.ts,.tsx,.html,.css,.scss,.xml,.yaml,.yml,.toml,.ini,.cfg,.conf,.log,.ps1,.bat,.cmd,.sh,.sql,.java,.c,.cpp,.h,.hpp,.cs,.go,.rs,.php,.rb,.swift,.kt,.env">
+            <button class="input-tool-btn" id="voiceBtn" title="Voice input" data-action="voice" aria-label="Voice input">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+            <div class="model-selector">
+              <button class="model-select-btn" id="modelSelectBtn" data-action="toggle-model-dropdown">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                <span id="selectedModelName">Load models</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="model-dropdown" id="modelDropdown">
+                <div class="model-dropdown-header">
+                  <button class="model-tab active" data-action="model-tab" data-tab="all">All</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="favorites">Favorites</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="free_endpoint">Free Endpoint</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="api">API Available</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="catalog">Catalog</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="reasoning">Reasoning</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="coding">Coding</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="vision">Vision</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="image">Image</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="speech">Speech</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="long">Long</button>
+                  <button class="model-tab" data-action="model-tab" data-tab="fast">Fast</button>
+                </div>
+                <div class="model-search">
+                  <div class="model-toolbar">
+                    <input type="text" placeholder="Search live NVIDIA models..." id="modelSearch" data-action="model-search" autocomplete="off" spellcheck="false">
+                    <button class="model-refresh-btn" type="button" data-action="refresh-models">Refresh</button>
+                  </div>
+                  <div class="model-meta" id="modelMeta"></div>
+                </div>
+                <div class="model-list" id="modelList"></div>
+              </div>
+            </div>
+          </div>
+          <button class="send-btn" id="sendBtn" data-action="send" disabled aria-label="Send message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Settings</div>
+        <button class="modal-close" data-action="close-settings" aria-label="Close settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label class="setting-label">NVIDIA API Key</label>
+          <div class="setting-desc">Your nvapi- key. Stored only in this browser. Never put it in GitHub.</div>
+          <input type="password" class="setting-input" id="apiKeyInput" placeholder="nvapi-xxxxxxxx" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">API Proxy URL</label>
+          <div class="setting-desc">Use your Cloudflare Worker URL for GitHub Pages/iPhone. Do not add /v1/... — the app appends paths itself.</div>
+          <input type="url" class="setting-input" id="proxyUrlInput" placeholder="https://nvidia-ai-proxy.lukewai.workers.dev" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="setting-group">
+          <div class="btn-row">
+            <button class="btn btn-secondary" type="button" data-action="test-connection">Test Connection</button>
+            <button class="btn btn-secondary" type="button" data-action="refresh-models-settings">Refresh Models</button>
+            <button class="btn btn-secondary" type="button" data-action="clear-key">Clear Key</button>
+          </div>
+          <div id="connectionStatus" class="connection-status" style="display:none;"></div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">User display name</label>
+          <input type="text" class="setting-input" id="userNameInput" placeholder="Luke">
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Temperature</label>
+          <div class="setting-desc">Lower = focused. Higher = creative.</div>
+          <div style="display:flex;align-items:center;">
+            <input type="range" class="setting-slider" id="tempSlider" min="0" max="2" step="0.1" value="0.7" data-action="temp-slider">
+            <span class="slider-value" id="tempValue">0.7</span>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Max Tokens</label>
+          <select class="setting-select" id="maxTokensSelect">
+            <option value="512">512 tokens</option><option value="1024">1,024 tokens</option><option value="2048" selected>2,048 tokens</option><option value="4096">4,096 tokens</option><option value="8192">8,192 tokens</option><option value="16384">16,384 tokens</option><option value="32768">32,768 tokens</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Streaming</label>
+          <select class="setting-select" id="streamSelect">
+            <option value="yes" selected>Yes - stream text live</option>
+            <option value="no">No - wait for full response</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Show Thinking Indicator</label>
+          <select class="setting-select" id="thinkingSelect">
+            <option value="yes" selected>Yes - show Thinking… while waiting</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Request Model Thinking</label>
+          <div class="setting-desc">When a model appears to support reasoning, send NVIDIA thinking parameters and show any public reasoning fields returned by the API.</div>
+          <select class="setting-select" id="forceReasoningSelect">
+            <option value="yes" selected>Yes - request public reasoning when supported</option>
+            <option value="no">No - do not add reasoning parameters</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Stream Diagnostics</label>
+          <div class="setting-desc">Shows raw stream counters, response headers, and raw SSE/JSON samples under each assistant response so you can see what NVIDIA actually returned.</div>
+          <select class="setting-select" id="diagnosticsSelect">
+            <option value="yes" selected>Yes - show stream diagnostics</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Theme</label>
+          <select class="setting-select" id="themeSelect"><option value="dark" selected>Dark NVIDIA</option><option value="light">Light</option></select>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Custom Mode Prompt</label>
+          <textarea class="setting-input" id="customPromptInput" rows="5" placeholder="Write your own system prompt for Custom mode..."></textarea>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Backup</label>
+          <div class="setting-desc">Export or import your settings and favourites as a JSON file.</div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" type="button" data-action="export-settings">Export settings</button>
+            <button class="btn btn-secondary" type="button" data-action="import-settings">Import settings</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-action="close-settings">Cancel</button>
+        <button class="btn btn-primary" data-action="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-overlay" id="panelOverlay" data-action="close-panel"></div>
+  <div class="side-panel" id="sidePanel">
+    <div class="panel-header">
+      <div class="panel-title" id="panelTitle">Panel</div>
+      <button class="panel-close" data-action="close-panel" aria-label="Close panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="panel-body" id="panelBody"></div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="app.js"></script>
+</body>
+</html>
